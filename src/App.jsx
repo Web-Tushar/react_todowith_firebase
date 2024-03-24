@@ -2,16 +2,17 @@ import { useEffect, useState } from 'react'
 import { getDatabase, ref, set, push,onValue,remove,update} from "firebase/database";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+// import tailwindConfig from '../tailwind.config';
 
 function App() {
 
-  let [text,setText] = useState("")
-  let [alltodo,setallTodo] = useState([])
-  let [isbtn,setIsbtn] = useState (true)
-  let [allinfo,setallinfo]= useState({})
-  const db = getDatabase();
-  let handleForm = (e) =>{
-    setText(e.target.value);
+  let [text,setText] = useState("")  
+  let [alltodo,setallTodo] = useState([])  
+  let [isbtn,setIsbtn] = useState (true)  
+  let [allinfo,setallinfo]= useState({}) 
+  const db = getDatabase();     
+  let handleForm = (e) =>{   
+    setText(e.target.value);  
   }
 
   // write operation
@@ -31,8 +32,8 @@ let handleSubmit =() =>{
         pauseOnHover: false,
         draggable: true,
         progress: undefined,
-        theme: "light",
-        });
+        theme: "light", 
+        });   
         setText("")
     })
   }else{
@@ -120,29 +121,39 @@ let handleUpdate =() =>{
   
   return (
     <>
+  
+    <div className=' mt-4 mx-auto container'>
 
 <ToastContainer/>
-<div>
-  <h2 className=' text-[red]'>tushar</h2>
+<div >
+  <h2 className='text-green-500 text-center bg-neutral-700 text-[30px] font-bold mx-auto uppercase'>your todo</h2>
 </div>
-      <input onChange={handleForm} name='text' value={text} placeholder='enter your task' />
+    <div className='flex justify-center items-center flex-col'>
+  <div>
+  <input className='border-2 border-gray-500 mt-4  p-[2px]' onChange={handleForm} name='text' value={text} placeholder='enter your task' />
       {isbtn
       ?
-      <button onClick={handleSubmit}>submit</button>
+      <button className='ml-5 border-2 border-gray-500 p-[2px] rounded-[3px] text-[20px] font-bold' onClick={handleSubmit}>submit</button>
       :
       <button onClick={handleUpdate}>update</button>
         
       }
-      <div>
-        <ul>
+    </div>  
+    
+    </div>
+    <div className=' flex  items-center justify-center'>
+        <ul className='flex flex-col gap-5 '>
           {alltodo.map((item,index)=>(
-          <li key={index}>{item.names} <button onClick={()=>handleDelete (item.id)}>delete</button>
-          <button onClick={()=>handleEdit(item)}>Edit</button></li>
+          <li className='border-2 m text-[30px] text-green-400 flex justify-between  ' key={index}>{index}:{item.names} 
+          <button  className='  text-red-400 border-2  text-[30px]'onClick={()=>handleDelete (item.id)}>delete</button>
+          <button className='  text-green-400 border-2 ml-3 text-[30px]' onClick={()=>handleEdit(item)}>Edit</button></li>
             ))
           }
           
         </ul>
       </div>
+    </div>
+
     </>
   )
 }
